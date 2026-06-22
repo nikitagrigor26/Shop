@@ -77,5 +77,5 @@ func InitDb() {
 		log.Fatal("Ошибка с таблицей Order_item", err)
 
 	}
-	fmt.Printf("Бд подключилась корректно")
+	fmt.Println("Бд подключилась корректно")
 }

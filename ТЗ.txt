@@ -1,0 +1,96 @@
+Техническое задание (ТЗ): API Интернет-магазина
+1. Архитектура и структура проекта
+
+Проект разделен на логические слои:
+Plaintext
+
+shop-api/
+│
+├── database/
+│   └── db.go       // Логика подключения к БД и создание таблиц (УЖЕ ГОТОВО ✅)
+│
+├── models/
+│   └── models.go   // Описание структур данных (structs)
+│
+├── handlers/
+│   └── handlers.go // Функции для обработки HTTP-запросов
+│
+├── go.mod          // Модуль Go
+├── go.sum          // Зависимости
+└── main.go         // Точка входа, запуск сервера и регистрация роутов
+
+2. Схема базы данных (Database Schema)
+
+4 таблицы в БД ShopDB (ты их уже успешно создал, оставляю как шпаргалку):
+
+    users (Пользователи)
+
+        id — INT IDENTITY(1,1) PRIMARY KEY
+
+        name — NVARCHAR(255)
+
+        email — VARCHAR(255)
+
+        password — VARCHAR(255)
+
+    products (Товары)
+
+        id — INT IDENTITY(1,1) PRIMARY KEY
+
+        name — NVARCHAR(255)
+
+        price — DECIMAL(10,2)
+
+        description — NVARCHAR(255)
+
+        quantity — INT (Количество на складе)
+
+    orders (Заказы)
+
+        id — INT IDENTITY(1,1) PRIMARY KEY
+
+        user_id — INT (FOREIGN KEY ссылается на users.id)
+
+        status — NVARCHAR(255) (Статус: created, paid, cancelled)
+
+    order_items (Детали заказа - связь товаров и заказов)
+
+        id — INT IDENTITY(1,1) PRIMARY KEY
+
+        product_id — INT (FOREIGN KEY ссылается на products.id)
+
+        order_id — INT (FOREIGN KEY ссылается на orders.id)
+
+        quantity — INT (Сколько штук купили)
+
+3. Структуры данных (Go Models)
+
+Файл models/models.go. Обязательно с JSON-тегами, чтобы Postman нас понимал:
+
+    User: ID (int), Name (string), Email (string), Password (string).
+
+    Product: ID (int), Name (string), Price (float64), Description (string), Quantity (int).
+
+    Order: ID (int), UserID (int), Status (string).
+
+    OrderItem: ID (int), ProductID (int), OrderID (int), Quantity (int).
+
+4. План по API (Эндпоинты)
+
+Что наш сервер должен уметь делать (твои будущие хэндлеры):
+
+    Товары:
+
+        POST /products — Добавить новый товар на склад.
+
+        GET /products — Получить список всех товаров (витрина).
+
+    Пользователи:
+
+        POST /users — Зарегистрировать нового пользователя.
+
+    Заказы (самая сочная логика):
+
+        POST /orders — Создать заказ (связать пользователя, товары и вычесть quantity со склада).
+
+        GET /orders/{id} — Получить чек/детали заказа.
