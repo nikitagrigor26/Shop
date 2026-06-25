@@ -26,6 +26,10 @@ func main() {
 	mux.HandleFunc("POST /user/add/", Handlers.AddUserHandler)
 	mux.HandleFunc("DELETE /user/delete/{id}", Handlers.DeleteUserHandler)
 	mux.HandleFunc("UPDATE /user/update/{id}", Handlers.UpdateUserHandler)
+	mux.HandleFunc("GET /orders/", Handlers.ViewAllOrders)
+	mux.HandleFunc("POST /order/add/", Handlers.AddOrder)
+	mux.HandleFunc("PUT /order/update/{id}/{status}", Handlers.UpdateStatus)
 	fmt.Println("Серваер запущен на порте http://localhost:8000")
 	http.ListenAndServe(":8000", loggedmux)
+
 }

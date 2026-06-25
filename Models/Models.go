@@ -21,15 +21,25 @@ type User struct {
 }
 
 type Order struct {
-	Id      int
-	user_id int
+	OrderId int
+	UserId  int
 	Status  string
 }
 type Order_item struct {
-	Id         int
-	product_id int
-	order_id   int
-	quantity   int
+	Id        int
+	ProductId int
+	OrderId   int
+	quantity  int
+}
+type OrderItemRequest struct {
+	ProductID int `json:"product_id"`
+	Quantity  int `json:"quantity"`
+}
+
+// Это структура для всего заказа (Кто покупает и массив товаров)
+type OrderRequest struct {
+	UserID int                `json:"user_id"`
+	Items  []OrderItemRequest `json:"items"` // <-- Убедись, что тут написан именно тип OrderItemRequest!
 }
 
 func StatsProduct() {
